@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.stytch'
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(libs.dotenv)
+    implementation(libs.jettyServer)
+    implementation(libs.jettyServlet)
+    implementation(libs.stytch)
+}
+
+application {
+    mainClass = 'com.stytch.Application'
+}
