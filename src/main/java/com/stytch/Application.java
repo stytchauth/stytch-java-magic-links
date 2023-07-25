@@ -1,6 +1,6 @@
 package com.stytch;
 
-import com.stytch.kotlin.consumer.StytchClient;
+import com.stytch.java.consumer.StytchClient;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;

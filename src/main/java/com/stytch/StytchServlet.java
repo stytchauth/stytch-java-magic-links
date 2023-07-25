@@ -1,9 +1,9 @@
 package com.stytch;
 
-import com.stytch.kotlin.common.StytchResult;
-import com.stytch.kotlin.consumer.StytchClient;
-import com.stytch.kotlin.consumer.models.magiclinks.AuthenticateRequest;
-import com.stytch.kotlin.consumer.models.magiclinksemail.LoginOrCreateRequest;
+import com.stytch.java.common.StytchResult;
+import com.stytch.java.consumer.StytchClient;
+import com.stytch.java.consumer.models.magiclinks.AuthenticateRequest;
+import com.stytch.java.consumer.models.magiclinksemail.LoginOrCreateRequest;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -47,17 +47,9 @@ public class StytchServlet extends HttpServlet {
                 var request = new LoginOrCreateRequest(
                         email,
                         MAGIC_LINK_URL,
-                        MAGIC_LINK_URL,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
+                        MAGIC_LINK_URL
                 );
-                var response = StytchClient.INSTANCE.getMagicLinks().getEmail().loginOrCreateCompletable(request).get();
+                var response = StytchClient.magicLinks.getEmail().loginOrCreateCompletable(request).get();
                 if (response instanceof StytchResult.Error) {
                     var exception = ((StytchResult.Error) response).getException();
                     throw new ServletException(exception);
@@ -95,17 +87,8 @@ public class StytchServlet extends HttpServlet {
         if (token == null) {
             throw new ServletException("missing token");
         }
-        var response = StytchClient.INSTANCE.getMagicLinks().authenticateCompletable(
-            new AuthenticateRequest(
-                    token,
-                    null,
-                    null,
-                    null,
-                    30,
-                    null,
-                    null,
-                    null
-            )
+        var response = StytchClient.magicLinks.authenticateCompletable(
+            new AuthenticateRequest(token)
         ).get();
         if (response instanceof StytchResult.Error) {
             var exception = ((StytchResult.Error) response).getException();
