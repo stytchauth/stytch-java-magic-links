@@ -25,7 +25,7 @@
                     <div class="cardContent">
                         <h1>Almost there...</h1>
                         <p>Sign up or log in to place your order. <br/>No password required!</p>
-                        <form action="/demo/login_or_create_user" method="POST">
+                        <form action="/login_or_create_user" method="POST">
                             <div class="actions">
                                 <input type="text" name="email" placeholder="example@email.com" />
                                 <input class="arrow" type="image" src="/static/images/arrow.png">

@@ -1,22 +1,30 @@
 plugins {
-    id 'java'
-    id 'application'
+	id 'java'
+	id 'org.springframework.boot' version '3.1.2'
+	id 'io.spring.dependency-management' version '1.1.2'
 }
 
 group = 'com.stytch'
-version = '0.0.1'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 dependencies {
-    implementation(libs.dotenv)
-    implementation(libs.jettyServer)
-    implementation(libs.jettyServlet)
-    implementation(libs.stytch)
+	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.stytch.java:sdk:1.2.0'
+	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-application {
-    mainClass = 'com.stytch.Application'
+java {
+	toolchain {
+		languageVersion.set(JavaLanguageVersion.of(17))
+	}
 }

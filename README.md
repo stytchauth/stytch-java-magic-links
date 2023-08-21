@@ -12,11 +12,11 @@ Edit the new `local.properties` file and add your `STYTCH_PROJECT_ID` and `STYTC
 
 ##### 3. Add Magic Link URL
 
-Visit https://stytch.com/dashboard/redirect-urls to add `http://localhost:3000/demo/authenticate` as a valid sign-up and login URL.
+Visit https://stytch.com/dashboard/redirect-urls to add `http://localhost:3000/authenticate` as a valid sign-up and login URL.
 
 ##### 4. Run the Server
 
-Run `./gradlew run`
+Run `./gradlew bootRun`
 
 ##### 5. Login
 
