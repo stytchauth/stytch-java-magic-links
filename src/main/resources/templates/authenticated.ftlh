@@ -17,7 +17,7 @@
                 </div>
                 <div>
                     <img class="icon" src="/static/images/shopping-bag.png">
-                    <img class="icon" src="/static/images/person.png">
+                    <a href="/profile"><img class="icon" src="/static/images/person.png"></a>
                 </div>
             </div>
             <div class="content">
@@ -25,6 +25,10 @@
                     <div class="cardContent">
                         <h1>Welcome back!</h1>
                         <p>Your socks just can't wait to be shipped!</p>
+                        <div class="actions">
+                            <a href="/profile"><b>Profile</b></a>
+                            <input class="arrow" type="image" src="/static/images/arrow.png">
+                        </div>
                         <div class="actions">
                             <a href="/logout"><b>Logout</b></a>
                             <input class="arrow" type="image" src="/static/images/arrow.png">

@@ -17,7 +17,6 @@
                 </div>
                 <div>
                     <img class="icon" src="/static/images/shopping-bag.png">
-                    <img class="icon" src="/static/images/person.png">
                 </div>
             </div>
             <div class="content">

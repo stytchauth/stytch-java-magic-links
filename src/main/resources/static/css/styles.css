@@ -43,6 +43,10 @@ body {
     justify-content: center;
 }
 
+.profile {
+    flex-direction: column;
+}
+
 .card {
     align-items: center;
     background-color: white;

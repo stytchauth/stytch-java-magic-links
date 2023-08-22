@@ -17,16 +17,15 @@
                 </div>
                 <div>
                     <img class="icon" src="/static/images/shopping-bag.png">
+                    <a href="/profile"><img class="icon" src="/static/images/person.png"></a>
                 </div>
             </div>
-            <div class="content">
-                <div class="card">
-                    <div class="cardContent">
-                        <h1>You've got mail!</h1>
-                        <p>Check your inbox (including the promotions folder) <br/>for the login link.</p>
-                        <p>Didn't find it? <a onclick="javascript:window.location.reload()"><b>Send it again.</b></a></p>
-                    </div>
-                </div>
+            <div class="content profile">
+                <h1>User Details</h1>
+                <p><strong>User ID:</strong> ${user.userId}</p>
+                <p><strong>Email Address:</strong> ${user.emails[0].email}</p>
+                <p><strong>Name:</strong> ${user.name.firstName} ${user.name.lastName}</p>
+                <p><strong><a href="/logout">Log Out</a></strong></p>
             </div>
         </div>
     </body>

@@ -8,7 +8,6 @@ import com.stytch.java.consumer.models.magiclinks.AuthenticateResponse;
 import com.stytch.java.consumer.models.magiclinksemail.LoginOrCreateRequest;
 import com.stytch.java.consumer.models.magiclinksemail.LoginOrCreateResponse;
 import com.stytch.java.consumer.models.sessions.RevokeRequest;
-import com.stytch.java.consumer.models.sessions.RevokeResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
@@ -26,20 +28,41 @@ public class DemoController {
     public String index(
         HttpServletRequest request,
         HttpServletResponse res
-    ) throws ExecutionException, InterruptedException {
+    ) throws ExecutionException, InterruptedException, IOException {
         Cookie[] cookies = getAuthenticationCookiesFromRequest(request);
         Cookie sessionToken = cookies[0];
         Cookie sessionJwt = cookies[1];
         if (sessionToken != null || sessionJwt != null) {
             // Authenticate session
-            boolean sessionIsAuthenticated = checkIfSessionIsAuthenticated(sessionToken, sessionJwt);
+            boolean sessionIsAuthenticated = getAuthenticatedSession(sessionToken, sessionJwt) instanceof StytchResult.Success<com.stytch.java.consumer.models.sessions.AuthenticateResponse>;
             if (sessionIsAuthenticated) {
-                return "loggedIn";
+                res.sendRedirect("/profile");
             } else {
-                deleteSessionCookies(res);
+                res.sendRedirect("/logout");
             }
+            return null;
         }
         return "index";
+    }
+
+    @GetMapping("/profile")
+    public ModelAndView profile(HttpServletRequest request, HttpServletResponse res) throws IOException, ExecutionException, InterruptedException {
+        Cookie[] cookies = getAuthenticationCookiesFromRequest(request);
+        Cookie sessionToken = cookies[0];
+        Cookie sessionJwt = cookies[1];
+        if (sessionToken == null && sessionJwt == null) {
+            res.sendRedirect("/");
+            return null;
+        }
+        StytchResult<com.stytch.java.consumer.models.sessions.AuthenticateResponse> response = getAuthenticatedSession(sessionToken, sessionJwt);
+        if (response instanceof StytchResult.Error) {
+            res.sendRedirect("/logout");
+            return null;
+        }
+        ModelAndView mav = new ModelAndView("profile");
+        com.stytch.java.consumer.models.sessions.AuthenticateResponse authenticateResponse = ((StytchResult.Success<com.stytch.java.consumer.models.sessions.AuthenticateResponse>) response).getValue();
+        mav.addObject("user", authenticateResponse.getUser());
+        return mav;
     }
 
     @PostMapping(
@@ -71,14 +94,14 @@ public class DemoController {
         Cookie sessionJWTCookie = new Cookie(STYTCH_SESSION_JWT, authenticateResponse.getSessionJwt());
         res.addCookie(sessionTokenCookie);
         res.addCookie(sessionJWTCookie);
-        return "loggedIn";
+        return "authenticated";
     }
 
     @GetMapping("/logout")
     public String logout(
         HttpServletRequest request,
         HttpServletResponse res
-    ) throws ExecutionException, InterruptedException, StytchException {
+    ) throws ExecutionException, InterruptedException {
         Cookie[] cookies = getAuthenticationCookiesFromRequest(request);
         Cookie sessionToken = cookies[0];
         Cookie sessionJwt = cookies[1];
@@ -93,10 +116,7 @@ public class DemoController {
         } else {
             revokeRequest = new RevokeRequest(null, null, sessionJwt.getValue());
         }
-        StytchResult<RevokeResponse> response = StytchClient.sessions.revokeCompletable(revokeRequest).get();
-        if (response instanceof StytchResult.Error) {
-            throw ((StytchResult.Error) response).getException();
-        }
+        StytchClient.sessions.revokeCompletable(revokeRequest).get();
         // delete the cookies
         deleteSessionCookies(res);
         return "loggedOut";
@@ -120,20 +140,24 @@ public class DemoController {
         return cookieList;
     }
 
-    private boolean checkIfSessionIsAuthenticated(Cookie sessionToken, Cookie sessionJwt) throws ExecutionException, InterruptedException {
+    private StytchResult<com.stytch.java.consumer.models.sessions.AuthenticateResponse> getAuthenticatedSession(
+        Cookie sessionToken,
+        Cookie sessionJwt
+    ) throws ExecutionException, InterruptedException {
         com.stytch.java.consumer.models.sessions.AuthenticateRequest request;
         if (sessionToken != null) {
             request = new com.stytch.java.consumer.models.sessions.AuthenticateRequest(sessionToken.getValue());
         } else {
             request = new com.stytch.java.consumer.models.sessions.AuthenticateRequest(null, null, sessionJwt.getValue());
         }
-        StytchResult<com.stytch.java.consumer.models.sessions.AuthenticateResponse> response = StytchClient.sessions.authenticateCompletable(request).get();
-        return response instanceof StytchResult.Success<com.stytch.java.consumer.models.sessions.AuthenticateResponse>;
+        return StytchClient.sessions.authenticateCompletable(request).get();
     }
 
     private void deleteSessionCookies(HttpServletResponse res) {
         Cookie sessionToken = new Cookie(STYTCH_SESSION_TOKEN, null);
         Cookie sessionJwt = new Cookie(STYTCH_SESSION_JWT, null);
+        sessionToken.setMaxAge(0);
+        sessionJwt.setMaxAge(0);
         res.addCookie(sessionToken);
         res.addCookie(sessionJwt);
     }
