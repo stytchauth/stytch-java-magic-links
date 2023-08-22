@@ -2,6 +2,9 @@
 <html lang="en">
     <head>
         <title>Hello Socks | Stytch example</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/static/css/styles.css">
     </head>
     <body>
@@ -21,11 +24,34 @@
                 </div>
             </div>
             <div class="content profile">
-                <h1>User Details</h1>
-                <p><strong>User ID:</strong> ${user.userId}</p>
-                <p><strong>Email Address:</strong> ${user.emails[0].email}</p>
-                <p><strong>Name:</strong> ${user.name.firstName} ${user.name.lastName}</p>
-                <p><strong><a href="/logout">Log Out</a></strong></p>
+                <div class="card">
+                    <div class="cardContent">
+                        <form action="/profile" method="POST" name="email">
+                            <h1>Welcome back<#if user.name?? && user.name.firstName?has_content>, ${user.name.firstName}</#if></h1>
+                            <div class="row">
+                                <label>email</label>
+                                <input type="text" readonly="true" value="${user.emails[0].email}" />
+                            </div>
+                            <div class="row multi">
+                                <div class="cell">
+                                    <label>first name</label>
+                                    <input type="text" name="firstName" value="${user.name.firstName}" />
+                                </div>
+                                <div class="cell">
+                                    <label>last name</label>
+                                    <input type="text" name="lastName" value="${user.name.lastName}" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <code>${user.userId}</code>
+                            </div>
+                            <div class="buttons">
+                                <button class="button" type="submit">Edit</button>
+                                <a class="button" href="/logout">Logout <img src="/static/images/arrow-trans.png"></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
