@@ -8,6 +8,9 @@ import com.stytch.java.consumer.models.magiclinks.AuthenticateResponse;
 import com.stytch.java.consumer.models.magiclinksemail.LoginOrCreateRequest;
 import com.stytch.java.consumer.models.magiclinksemail.LoginOrCreateResponse;
 import com.stytch.java.consumer.models.sessions.RevokeRequest;
+import com.stytch.java.consumer.models.users.Name;
+import com.stytch.java.consumer.models.users.UpdateRequest;
+import com.stytch.java.consumer.models.users.UpdateResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -62,6 +65,36 @@ public class DemoController {
         ModelAndView mav = new ModelAndView("profile");
         com.stytch.java.consumer.models.sessions.AuthenticateResponse authenticateResponse = ((StytchResult.Success<com.stytch.java.consumer.models.sessions.AuthenticateResponse>) response).getValue();
         mav.addObject("user", authenticateResponse.getUser());
+        return mav;
+    }
+
+    @PostMapping(
+        value = "/profile",
+        consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public ModelAndView editProfile(HttpServletRequest request, HttpServletResponse res, String firstName, String lastName) throws IOException, ExecutionException, InterruptedException, StytchException {
+        Cookie[] cookies = getAuthenticationCookiesFromRequest(request);
+        Cookie sessionToken = cookies[0];
+        Cookie sessionJwt = cookies[1];
+        if (sessionToken == null && sessionJwt == null) {
+            res.sendRedirect("/");
+            return null;
+        }
+        StytchResult<com.stytch.java.consumer.models.sessions.AuthenticateResponse> response = getAuthenticatedSession(sessionToken, sessionJwt);
+        if (response instanceof StytchResult.Error) {
+            res.sendRedirect("/logout");
+            return null;
+        }
+        com.stytch.java.consumer.models.sessions.AuthenticateResponse authenticateResponse = ((StytchResult.Success<com.stytch.java.consumer.models.sessions.AuthenticateResponse>) response).getValue();
+        Name name = new Name(firstName, null, lastName);
+        UpdateRequest updateRequest = new UpdateRequest(authenticateResponse.getUser().getUserId(), name);
+        StytchResult<UpdateResponse> updateResponse = StytchClient.users.updateCompletable(updateRequest).get();
+        if (updateResponse instanceof StytchResult.Error) {
+            throw ((StytchResult.Error) updateResponse).getException();
+        }
+        UpdateResponse updateResponseUnwrapped = ((StytchResult.Success<UpdateResponse>) updateResponse).getValue();
+        ModelAndView mav = new ModelAndView("profile");
+        mav.addObject("user", updateResponseUnwrapped.getUser());
         return mav;
     }
 
