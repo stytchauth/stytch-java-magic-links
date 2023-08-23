@@ -17,7 +17,11 @@ import java.util.Arrays;
 @Component
 public class StytchAuthenticationIntercepter implements HandlerInterceptor {
     @Override
-    public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
+    public boolean preHandle(
+        @NotNull HttpServletRequest request,
+        @NotNull HttpServletResponse response,
+        @NotNull Object handler
+    ) throws Exception {
         Cookie[] cookies = request.getCookies();
         Cookie sessionToken = null;
         Cookie sessionJwt = null;

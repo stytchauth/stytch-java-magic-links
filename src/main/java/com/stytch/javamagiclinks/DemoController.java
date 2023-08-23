@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 @Controller
 public class DemoController {
     @GetMapping("/")
-    public ModelAndView index(HttpServletRequest request) {
+    public ModelAndView index(@NotNull HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("index");
         User authenticatedUser = (User) request.getAttribute("authenticatedUser");
         mav.addObject("user", authenticatedUser);
@@ -35,7 +35,10 @@ public class DemoController {
     }
 
     @GetMapping("/profile")
-    public ModelAndView profile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ModelAndView profile(
+        @NotNull HttpServletRequest request,
+        @NotNull HttpServletResponse response
+    ) throws IOException {
         User authenticatedUser = (User) request.getAttribute("authenticatedUser");
         if (authenticatedUser == null) {
             response.sendRedirect("/");
@@ -50,7 +53,12 @@ public class DemoController {
         value = "/profile",
         consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )
-    public ModelAndView editProfile(HttpServletRequest request, HttpServletResponse response, String firstName, String lastName) throws IOException, ExecutionException, InterruptedException, StytchException {
+    public ModelAndView editProfile(
+        @NotNull HttpServletRequest request,
+        @NotNull HttpServletResponse response,
+        String firstName,
+        String lastName
+    ) throws IOException, ExecutionException, InterruptedException, StytchException {
         User authenticatedUser = (User) request.getAttribute("authenticatedUser");
         if (authenticatedUser == null) {
             response.sendRedirect("/");
@@ -85,7 +93,6 @@ public class DemoController {
     @GetMapping("/authenticate")
     public String authenticate(
         @NotNull HttpServletRequest request,
-        @NotNull HttpServletResponse response,
         @RequestParam("token") String token
     ) throws StytchException, ExecutionException, InterruptedException {
         AuthenticateRequest stytchRequest = new AuthenticateRequest(token, null, null,null, 30);
@@ -102,7 +109,7 @@ public class DemoController {
     }
 
     @GetMapping("/logout")
-    public String logout(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) throws ExecutionException, InterruptedException {
+    public String logout(@NotNull HttpServletRequest request) throws ExecutionException, InterruptedException {
         StytchCookies stytchCookies = (StytchCookies) request.getAttribute("stytchCookies");
         if (stytchCookies != null) {
             RevokeRequest revokeRequest = new RevokeRequest(null, stytchCookies.sessionToken, stytchCookies.jwt);
