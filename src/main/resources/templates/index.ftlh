@@ -17,6 +17,7 @@
                 </div>
                 <div>
                     <img class="icon" src="/static/images/shopping-bag.png">
+                    <#if user??><a href="/profile"><img class="icon" src="/static/images/person.png"></a></#if>
                 </div>
             </div>
             <div class="content">
