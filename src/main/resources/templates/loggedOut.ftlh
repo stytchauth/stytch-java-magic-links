@@ -17,18 +17,13 @@
                 </div>
                 <div>
                     <img class="icon" src="/static/images/shopping-bag.png">
-                    <img class="icon" src="/static/images/person.png">
                 </div>
             </div>
             <div class="content">
                 <div class="card">
                     <div class="cardContent">
-                        <h1>Welcome back!</h1>
-                        <p>Your socks just can't wait to be shipped!</p>
-                        <div class="actions">
-                            <a href="/demo/logout"><b>Logout</b></a>
-                            <input class="arrow" type="image" src="/static/images/arrow.png">
-                        </div>
+                        <h1>Enjoy your socks!</h1>
+                        <p>We'll see you next time.</p>
                     </div>
                 </div>
             </div>

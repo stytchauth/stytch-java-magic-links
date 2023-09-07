@@ -17,15 +17,20 @@
                 </div>
                 <div>
                     <img class="icon" src="/static/images/shopping-bag.png">
-                    <img class="icon" src="/static/images/person.png">
+                    <#if user??><a href="/profile"><img class="icon" src="/static/images/person.png"></a></#if>
                 </div>
             </div>
             <div class="content">
                 <div class="card">
                     <div class="cardContent">
-                        <h1>You've got mail!</h1>
-                        <p>Check your inbox (including the promotions folder) <br/>for the login link.</p>
-                        <p>Didn't find it? <a onclick="javascript:window.location.reload()"><b>Send it again.</b></a></p>
+                        <h1>Almost there...</h1>
+                        <p>Sign up or log in to place your order. <br/>No password required!</p>
+                        <form action="/login_or_create_user" method="POST">
+                            <div class="actions">
+                                <input type="text" name="email" placeholder="example@email.com" />
+                                <input class="arrow" type="image" src="/static/images/arrow.png">
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

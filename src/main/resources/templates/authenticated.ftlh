@@ -17,20 +17,22 @@
                 </div>
                 <div>
                     <img class="icon" src="/static/images/shopping-bag.png">
-                    <img class="icon" src="/static/images/person.png">
+                    <a href="/profile"><img class="icon" src="/static/images/person.png"></a>
                 </div>
             </div>
             <div class="content">
                 <div class="card">
                     <div class="cardContent">
-                        <h1>Almost there...</h1>
-                        <p>Sign up or log in to place your order. <br/>No password required!</p>
-                        <form action="/demo/login_or_create_user" method="POST">
-                            <div class="actions">
-                                <input type="text" name="email" placeholder="example@email.com" />
-                                <input class="arrow" type="image" src="/static/images/arrow.png">
-                            </div>
-                        </form>
+                        <h1>Welcome back!</h1>
+                        <p>Your socks just can't wait to be shipped!</p>
+                        <div class="actions">
+                            <a href="/profile"><b>Profile</b></a>
+                            <input class="arrow" type="image" src="/static/images/arrow.png">
+                        </div>
+                        <div class="actions">
+                            <a href="/logout"><b>Logout</b></a>
+                            <input class="arrow" type="image" src="/static/images/arrow.png">
+                        </div>
                     </div>
                 </div>
             </div>

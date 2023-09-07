@@ -43,6 +43,10 @@ body {
     justify-content: center;
 }
 
+.profile {
+    flex-direction: column;
+}
+
 .card {
     align-items: center;
     background-color: white;
@@ -104,4 +108,74 @@ a:hover {
 
 h1 {
     font-size: 40px;
+}
+
+.profile .card {
+    justify-content: start;
+    align-items: stretch;
+}
+.profile .cardContent {
+    text-align: left;
+    padding: 45px;
+    width: 100%;
+}
+.profile form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.profile h1 {
+    font: 600 24px/30px 'IBM Plex Sans', sans-serif;
+    margin: 0 0 24px;
+}
+.profile label {
+    display: block;
+    color: #5C727D;
+    font: 400 14px/20px 'IBM Plex Sans', sans-serif;
+}
+.profile input {
+    border: 1px solid #ADBCC5;
+    border-radius: 4px;
+    color: #ADBCC5;
+    font: 400 18px/25px 'IBM Plex Sans', sans-serif;
+    display: inline-block;
+}
+.profile .row {
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+}
+.profile .row.multi {
+    flex-direction: row;
+    justify-content: space-between;
+}
+.profile .cell {
+
+}
+.profile code {
+    background: #ECFAFF;
+    display: inline-block;
+    padding: 8px;
+    border-radius: 4px;
+    color: #19303D;
+    font: 400 16px/28px 'IBM Plex Mono', monospace;
+}
+.profile .buttons {
+    display: flex;
+    justify-content: end;
+}
+.profile .button {
+    display: inline-block;
+    padding: 0 22px;
+    background: #19303D;
+    color: #fff;
+    font: 600 18px/32px 'IBM Plex Sans', sans-serif;
+    text-decoration: none;
+    border-radius: 3px;
+    margin-left: 10px;
+    border: none;
+}
+.profile .button img {
+    display: inline-block;
+    margin-left: 5px;
 }
