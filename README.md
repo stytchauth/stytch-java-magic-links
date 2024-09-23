@@ -8,7 +8,7 @@ Close this repository and navigate to the folder with the source code on your ma
 
 Create a new `local.properties` file by running `cp local.properties.template local.properties`.
 
-Edit the new `local.properties` file and add your `STYTCH_PROJECT_ID` and `STYTCH_PROJECT_SECRET`, which can be found in your [Stytch Project Dashboard](https://stytch.com/dashboard/api-keys).
+Edit the new `local.properties` file and add your `stytch.project.id` and `stytch.project.secret`, which can be found in your [Stytch Project Dashboard](https://stytch.com/dashboard/api-keys).
 
 ##### 3. Add Magic Link URL
 
