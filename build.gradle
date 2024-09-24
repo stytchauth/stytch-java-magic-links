@@ -1,14 +1,16 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.1.2'
-	id 'io.spring.dependency-management' version '1.1.2'
+	id('java')
+	id("org.springframework.boot") version "3.3.3"
+	id("io.spring.dependency-management") version "1.1.6"
 }
 
-group = 'com.stytch'
-version = '0.0.1-SNAPSHOT'
+group = "com.stytch"
+version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = '17'
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(22)
+	}
 }
 
 repositories {
@@ -16,15 +18,10 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'com.stytch.java:sdk:1.2.0'
-	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-java {
-	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(17))
-	}
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.springframework.security:spring-security-oauth2-core")
+	implementation("org.springframework.security:spring-security-oauth2-jose")
+	implementation("com.stytch.java:sdk:6.0.0")
 }

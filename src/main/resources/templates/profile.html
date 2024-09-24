@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
     <head>
         <title>Hello Socks | Stytch example</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,28 +26,28 @@
             <div class="content profile">
                 <div class="card">
                     <div class="cardContent">
-                        <form action="/profile" method="POST" name="email">
-                            <h1>Welcome back<#if user.name?? && user.name.firstName?has_content>, ${user.name.firstName}</#if></h1>
+                        <form th:action="@{/profile}" method="POST">
+                            <h1>Welcome back <span th:text="${session.user.name.firstName}" th:unless="${session.user.name == null}"></span></h1>
                             <div class="row">
                                 <label>email</label>
-                                <input type="text" readonly="true" value="${user.emails[0].email}" />
+                                <input type="text" readonly="true" th:value="${session.user.emails[0].email}" />
                             </div>
                             <div class="row multi">
                                 <div class="cell">
                                     <label>first name</label>
-                                    <input type="text" name="firstName" value="${user.name.firstName}" />
+                                    <input type="text" name="firstName" th:value="${session.user.name.firstName}" />
                                 </div>
                                 <div class="cell">
                                     <label>last name</label>
-                                    <input type="text" name="lastName" value="${user.name.lastName}" />
+                                    <input type="text" name="lastName" th:value="${session.user.name.lastName}" />
                                 </div>
                             </div>
                             <div class="row">
-                                <code>${user.userId}</code>
+                                <code th:text="${session.user.userId}"></code>
                             </div>
                             <div class="buttons">
                                 <button class="button" type="submit">Edit</button>
-                                <a class="button" href="/logout">Logout <img src="/static/images/arrow-trans.png"></a>
+                                <a class="button" href="/signOut">Logout <img src="/static/images/arrow-trans.png"></a>
                             </div>
                         </form>
                     </div>
