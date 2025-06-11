@@ -32,7 +32,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Optional<Cookie> jwtCookie = Arrays.stream(request.getCookies()).filter((Cookie cookie) -> {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        Optional<Cookie> jwtCookie = Arrays.stream(cookies).filter((Cookie cookie) -> {
             return cookie.getName().equals(STYTCH_SESSION_JWT_COOKIE_NAME);
         }).findFirst();
 
